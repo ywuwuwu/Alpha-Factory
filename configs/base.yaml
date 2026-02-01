@@ -1,0 +1,60 @@
+# AlphaFactory-Pro configuration
+data:
+  provider: yfinance
+  cache_dir: data/cache_yf
+  # keep this modest initially; expand once the pipeline is stable
+  tickers: ["AAPL","MSFT","AMZN","GOOGL","META","NVDA","JPM","XOM","UNH","PG"]
+  start: "2016-01-01"
+  end: "2025-01-01"
+  price_field: "Adj Close"
+  volume_field: "Volume"
+
+label:
+  delay_days: 1
+  horizon_days: 5   # medium-frequency: 1w-ish
+  winsorize_pct: 0.01
+
+validation:
+  # purged walk-forward: each split trains on the past N years and tests on the next month
+  train_years: 4
+  test_months: 1
+  embargo_days: 5
+
+factors:
+  # keep the first run small; add more later
+  enabled:
+    - mom_12_1
+    - rev_1m
+    - rev_5d
+    - vol_20d
+    - vol_change_20d
+    - dollar_volume
+    - volume_z_20d
+
+transforms:
+  cross_sectional: ["winsorize", "zscore"]   # applied per date
+  time_series:
+    ewm_alpha: 0.15  # smoothing to reduce turnover (0 disables)
+
+portfolio:
+  long_quantile: 0.1
+  short_quantile: 0.1
+  gross_exposure: 1.0
+  max_abs_weight: 0.02
+  # simple market-neutral: sum(weights)=0 each day (implemented)
+  # beta-neutral is optional extension
+
+costs:
+  bps_list: [0, 5, 10, 20]
+
+combination:
+  method: online_alm   # equal | ic_weighted | ridge | online_alm
+  ridge_alpha: 10.0
+  online_alm:
+    eta: 0.1
+    tau: 0.10
+    l1_budget: 1.0
+    warmup_splits: 2
+
+reporting:
+  output_dir: results
