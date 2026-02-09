@@ -21,7 +21,7 @@ This repo forces a *real* research workflow: **hypothesis → signal → strict 
 
 ---
 
-## Quickstart (local machine)
+## Quickstart
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
@@ -40,7 +40,7 @@ Outputs go to: `results/<timestamp>/`
 
 ---
 
-## Data notes (important)
+## Data notes
 
 Default data is downloaded with `yfinance` for convenience. This is **not survivorship-bias free** and is not “publication-quality”.
 For production-grade research we can use CRSP/Compustat (WRDS), Norgate, etc.
