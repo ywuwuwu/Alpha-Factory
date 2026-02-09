@@ -1,4 +1,4 @@
-# AlphaFactory-Pro (GitHub-ready quant research artifact)
+# AlphaFactory-Pro
 
 This repo is a **reproducible, end-to-end “alpha research loop”** for **market-neutral, medium-frequency** equity signals:
 
