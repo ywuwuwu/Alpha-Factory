@@ -69,22 +69,6 @@ alpha-factory-pro/
   results/   # gitignored
 ```
 
----
-
-## “Done” definition (what to show recruiters)
-
-You are **done** when your repo has:
-
-- **2–3 factor families** (momentum/reversal/vol/liquidity) implemented cleanly
-- purged walk-forward splits + a test proving **no lookahead**
-- cost sensitivity sweep (e.g., 0/5/10/20 bps)
-- a combined signal that beats equal-weight baseline **out-of-sample**
-- a 1-page memo in `paper/one_pager.md` with:
-  - your validation design
-  - stability results
-  - failure modes + next iteration
-
----
 
 ## References
 
