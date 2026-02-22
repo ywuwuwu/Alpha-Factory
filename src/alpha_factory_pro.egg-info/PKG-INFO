@@ -17,18 +17,8 @@ This repo is a **reproducible, end-to-end “alpha research loop”** for **mark
 6) optionally **combine signals** using an **online L1-budget allocator** (your differentiator)
 7) generate a report (CSV + Markdown + plots)
 
-> ⚠️ Research/education only. Not investment advice.
+Research/education only. Not investment advice.
 
----
-
-## Why this project exists
-
-If you only “try random alphas” on platforms (WorldQuant BRAIN etc.), it’s easy to get stuck.
-This repo forces a *real* research workflow: **hypothesis → signal → strict evaluation → robustness → library → combination**.
-
-This directly maps to what **alpha-research roles** ask for (build alphas, combine them, handle costs). Trexquant’s GAR program description is a close match to this workflow. (See links in README “References”.)
-
----
 
 ## Quickstart (local machine)
 
