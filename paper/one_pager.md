@@ -1,8 +1,5 @@
-# AlphaFactory-Pro — 1-page Research Summary (Template)
+# AlphaFactory-Pro — 1-page Research Summary
 
-**Author:** YOUR NAME  
-**Date:** YYYY-MM-DD  
-**Repo:** (link)
 
 ## 1. Objective
 Build a **market-neutral, medium-frequency** cross-sectional alpha library and show:
