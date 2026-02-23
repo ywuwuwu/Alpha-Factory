@@ -7,3 +7,9 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 .DS_Store
+
+# generated artifacts
+nohup.out
+*.out
+*.log
+**/*.egg-info/

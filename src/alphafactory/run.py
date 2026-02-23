@@ -24,6 +24,31 @@ from alphafactory.portfolio.longshort import (
 from alphafactory.reports.report import save_equity_curve_plot, write_report_md
 
 
+def _load_universe_from_file(path: str) -> list[str]:
+    """Load tickers from a text file (one ticker per line).
+
+    Supports comments (lines starting with '#') and comma/space separated lines.
+    """
+    p = Path(path)
+    if not p.exists():
+        raise FileNotFoundError(f"Universe file not found: {path}")
+
+    tickers: list[str] = []
+    for raw in p.read_text().splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        # Allow either one ticker per line or comma/space separated tickers
+        parts = [x.strip() for x in line.replace(",", " ").split() if x.strip()]
+        tickers.extend(parts)
+
+    # De-duplicate while preserving sorted order for determinism
+    tickers = sorted({t.upper() for t in tickers})
+    if len(tickers) == 0:
+        raise ValueError(f"Universe file is empty after parsing: {path}")
+    return tickers
+
+
 FACTOR_REGISTRY = {
     "mom_12_1": lambda prices, vols: factor_fns.mom_12_1(prices),
     "rev_1m": lambda prices, vols: factor_fns.rev_1m(prices),
@@ -46,7 +71,17 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
 
     # ----------------- data -----------------
-    tickers = cfg["data"]["tickers"]
+    # Universe: either provided inline in config, or loaded from a text file.
+    universe_file = cfg["data"].get("universe_file")
+    if universe_file:
+        # Resolve relative paths against the config file directory for portability.
+        uf = Path(universe_file)
+        if not uf.is_absolute():
+            uf = Path(args.config).resolve().parent / uf
+        tickers = _load_universe_from_file(str(uf))
+    else:
+        tickers = list(cfg["data"]["tickers"])
+        tickers = sorted({t.upper() for t in tickers})
     prices, volumes = load_yfinance_panel(
         tickers=tickers,
         start=cfg["data"]["start"],

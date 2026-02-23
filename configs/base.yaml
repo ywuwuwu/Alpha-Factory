@@ -2,7 +2,9 @@
 data:
   provider: yfinance
   cache_dir: data/cache_yf
-  # keep this modest initially; expand once the pipeline is stable
+  # Universe: prefer loading from a file instead of hard-coding hundreds of tickers.
+  # If universe_file is set, it overrides the inline `tickers` list.
+  universe_file: "universes/us_liquid_300.txt"   # ~240 large/liquid US names (editable)
   tickers: ["AAPL","MSFT","AMZN","GOOGL","META","NVDA","JPM","XOM","UNH","PG"]
   start: "2016-01-01"
   end: "2025-01-01"
@@ -40,7 +42,9 @@ portfolio:
   long_quantile: 0.1
   short_quantile: 0.1
   gross_exposure: 1.0
-  max_abs_weight: 0.02
+  # With ~200--300 names and 10/10 long-short, each leg holds ~20--30 names.
+  # Set cap high enough to avoid clipping the equal-weight baseline.
+  max_abs_weight: 0.05
   # simple market-neutral: sum(weights)=0 each day (implemented)
   # beta-neutral is optional extension
 
